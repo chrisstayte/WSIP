@@ -1,0 +1,34 @@
+﻿<Window x:Class="WSIP.View.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:vm="clr-namespace:WSIP.ViewModel"
+        xmlns:local="clr-namespace:WSIP"
+        xmlns:m="clr-namespace:WSIP.Model"
+        DataContext="{DynamicResource ViewModelMain}"
+        Title="What Should I Purge" Height="350" Width="403" MinWidth="403" MinHeight="190" Icon="../Resources/Vomited_50.png">
+    <Window.Resources>
+        <vm:ViewModelMain x:Key="ViewModelMain"/>
+    </Window.Resources>
+    <Grid>
+        <ListView x:Name="resultsView" Margin="10,78,10,10" ItemsSource="{Binding Projects}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Project Name" Width="120" DisplayMemberBinding="{Binding Name}"/>
+                    <GridViewColumn Header="Size (GB)" Width="100" DisplayMemberBinding="{Binding SimpleSize}"/>
+                    <GridViewColumn Header="Geodatabase Count" Width="150" DisplayMemberBinding="{Binding NumberOfGDB}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+        <TextBox x:Name="txbProjectFolder" Height="26" Margin="10,41,118,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        <Button Content="Process" Margin="0,41,7,0" HorizontalAlignment="Right" Width="75" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResults}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
+        <Label Content="Project Folder" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
+        <Button Margin="0,41,87,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Command="{Binding SelectProjectFolder}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}">
+            <Button.Content>
+                <Image Source="../Resources/searches-folder.png"/>
+            </Button.Content>
+        </Button>
+
+    </Grid>
+</Window>

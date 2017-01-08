@@ -1,0 +1,17 @@
+C:\Users\chris\Downloads\WSIP\WSIP\bin\Debug\WSIP.exe.config
+C:\Users\chris\Downloads\WSIP\WSIP\bin\Debug\WSIP.exe
+C:\Users\chris\Downloads\WSIP\WSIP\bin\Debug\WSIP.pdb
+C:\Users\chris\Downloads\WSIP\WSIP\bin\Debug\Ookii.Dialogs.dll
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP.csprojResolveAssemblyReference.cache
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\View\MainWindow.g.cs
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\App.g.cs
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP_Content.g.cs
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP_MarkupCompile.cache
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP_MarkupCompile.lref
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\View\MainWindow.baml
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP.g.resources
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP.Properties.Resources.resources
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP.csproj.GenerateResource.Cache
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP.exe
+C:\Users\chris\Downloads\WSIP\WSIP\obj\Debug\WSIP.pdb
