@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Vomited_50.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="Ookii.Dialogs, Version=1.0.0.0, Culture=neutral, PublicKeyToken=0c15020868fd6249, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -108,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="lib\Ookii.Dialogs.dll" />
+    <Resource Include="Vomited_50.ico" />
     <Resource Include="Resources\Vomited_50.png" />
     <Resource Include="Resources\searches-folder.png" />
   </ItemGroup>
