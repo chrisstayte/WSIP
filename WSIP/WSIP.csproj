@@ -110,7 +110,7 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="lib\Ookii.Dialogs.dll" />
+    <EmbeddedResource Include="lib\Ookii.Dialogs.dll" />
     <Resource Include="Vomited_50.ico" />
     <Resource Include="Resources\Vomited_50.png" />
     <Resource Include="Resources\searches-folder.png" />

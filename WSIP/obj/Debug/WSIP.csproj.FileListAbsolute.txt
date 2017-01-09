@@ -5,7 +5,6 @@ C:\SourceControl\GitHub\WISP\WSIP\bin\Debug\Ookii.Dialogs.dll
 C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\WSIP.csprojResolveAssemblyReference.cache
 C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\View\MainWindow.g.cs
 C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\App.g.cs
-C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\WSIP_Content.g.cs
 C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\GeneratedInternalTypeHelper.g.cs
 C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\WSIP_MarkupCompile.cache
 C:\SourceControl\GitHub\WISP\WSIP\obj\Debug\WSIP_MarkupCompile.lref
