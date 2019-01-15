@@ -6,18 +6,52 @@
         xmlns:vm="clr-namespace:WSIP.ViewModel"
         xmlns:local="clr-namespace:WSIP"
         xmlns:m="clr-namespace:WSIP.Model"
+        xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
+        xmlns:p="clr-namespace:System;assembly=mscorlib"
         DataContext="{DynamicResource ViewModelMain}"
-        Title="What Should I Purge" Height="350" Width="403" MinWidth="403" MinHeight="190" Icon="../Resources/Vomited_50.png">
+        Title="What Should I Purge" Height="350" Width="486.299" MinWidth="403" MinHeight="190" Icon="../Resources/Vomited_50.png">
     <Window.Resources>
         <vm:ViewModelMain x:Key="ViewModelMain"/>
     </Window.Resources>
     <Grid>
-        <ListView x:Name="resultsView" Margin="10,78,10,10" ItemsSource="{Binding Projects}">
+        <ListView x:Name="resultsView" Margin="10,78,10,10" ItemsSource="{Binding ProjectsDataView}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Header="Project Name" Width="120" DisplayMemberBinding="{Binding Name}"/>
-                    <GridViewColumn Header="Size (GB)" Width="100" DisplayMemberBinding="{Binding SimpleSize}"/>
-                    <GridViewColumn Header="Geodatabase Count" Width="150" DisplayMemberBinding="{Binding NumberOfGDB}"/>
+                    <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}">
+                        <GridViewColumnHeader 
+                            Content="Project Name"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="Name"
+                                              />
+                    </GridViewColumn>
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding SimpleSize}">
+                        <GridViewColumnHeader 
+                            Content="Size (GB)"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="SimpleSize"
+                                             />
+                    </GridViewColumn>
+                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfGDB}">
+                        <GridViewColumnHeader
+                            Content="GDB Count"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="NumberOfGDB"
+                            />
+                    </GridViewColumn>
+                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfLAS}">
+                        <GridViewColumnHeader
+                            Content="LAS Count"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="NumberOfLAS"
+                            />
+                    </GridViewColumn>
+                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfTIF}">
+                        <GridViewColumnHeader
+                            Content="TIF Count"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="NumberOfTIF"
+                            />
+                    </GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>
