@@ -71,14 +71,14 @@
         {
             get
             {
-                return (Exception == null) ? null : Exception.InnerException;
+                return Exception?.InnerException;
             }
         }
         public string ErrorMessage
         {
             get
             {
-                return (InnerException == null) ? null : InnerException.Message;
+                return InnerException?.Message;
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
