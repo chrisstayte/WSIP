@@ -10,13 +10,17 @@ namespace WSIP.Model
     {
         private int _numberOfLAS;
         private int _numberOfTIF;
-        private bool _completedProcessing;
+        private string _processStatus;
+        private string _owner;
+        private string _dateCreated;
 
         public Project2(string name, string path) : base(name, path)
         {
             _numberOfLAS = 0;
             _numberOfTIF = 0;
-            _completedProcessing = false;
+            _processStatus = "Not Started";
+            _owner = "Unknown";
+            _dateCreated = "Unknown";
         }
 
 
@@ -52,16 +56,42 @@ namespace WSIP.Model
             }
         }
 
-        public bool CompletedProcessing
+        public string ProcessStatus
         {
             get
             {
-                return _completedProcessing;
+                return _processStatus;
             }
             set
             {
-                _completedProcessing = value;
+                _processStatus = value;
                 NotifyPropertyChanged();
+            }
+        }
+
+        public string Owner
+        {
+            get
+            {
+                return _owner;
+            }
+            set
+            {
+                _owner = value;
+                NotifyPropertyChanged("Owner");
+            }
+        }
+
+        public string DateCreated
+        {
+            get
+            {
+                return _dateCreated;
+            }
+            set
+            {
+                _dateCreated = value;
+                NotifyPropertyChanged("DateCreated");
             }
         }
 

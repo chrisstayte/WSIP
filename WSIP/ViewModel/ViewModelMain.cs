@@ -7,6 +7,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,9 +21,6 @@ namespace WSIP.ViewModel
 {
     class ViewModelMain : ViewModelBase
     {
-        private string _sortColumn;
-        private ListSortDirection _sortDirection;
-
         string _projectFolder;
         public string ProjectFolder
         {
@@ -40,8 +38,10 @@ namespace WSIP.ViewModel
             }
         }
 
-        private CollectionViewSource _projectsDataView;
+        public RelayCommand SelectProjectFolder { get; private set; }
+        public RelayCommand ProcessResults { get; private set; }
 
+        private CollectionViewSource _projectsDataView;
         public ListCollectionView ProjectsDataView
         {
             get
@@ -66,12 +66,32 @@ namespace WSIP.ViewModel
                 };
             }
         }
+
+        private string _processButtonText;
+        public string ProcessButtonText
+        {
+            get
+            {
+                return _processButtonText;
+            }
+            set
+            {
+                _processButtonText = value;
+                NotifyPropertyChanged("ProcessButtonText");
+            }
+        }
+
+
+        private CancellationTokenSource tokenSource;
+        private CancellationToken token;
+
         public ViewModelMain()
         {
             SelectProjectFolder = new RelayCommand(selectProjectFolder);
             ProcessResults = new RelayCommand(processResults);
             Projects = new ObservableCollection<Project2>();
-            SortCommand = new RelayCommand(sortCommand);
+
+            ProcessButtonText = "Process";
 
             AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
             {
@@ -87,14 +107,6 @@ namespace WSIP.ViewModel
             };
         }
 
-        #region Commands
-
-        public RelayCommand SelectProjectFolder { get; private set; }
-        public RelayCommand ProcessResults { get; private set; }
-
-        public RelayCommand SortCommand { get; private set; }
-
-        #endregion
 
         #region Events
 
@@ -115,51 +127,42 @@ namespace WSIP.ViewModel
 
         private void processResults(object parameter)
         {
-            if (!Directory.Exists(_projectFolder))
+    
+            if (ProcessButtonText == "Process")
             {
-                System.Windows.MessageBox.Show("Project Folder Doesn't Exist!", "WSIP", MessageBoxButton.OK, MessageBoxImage.Error);
-                return;
-            }
+                tokenSource = new CancellationTokenSource();
+                token = tokenSource.Token;
 
-            Projects.Clear();
-
-            List<string> projects = Directory.GetDirectories(_projectFolder).ToList();
-            foreach (string project in projects)
-            {
-                if (project != null)
+                if (!Directory.Exists(_projectFolder))
                 {
-                    Projects.Add(new Model.Project2(Path.GetFileName(project), project));
+                    System.Windows.MessageBox.Show("Project Folder Doesn't Exist!", "WSIP", MessageBoxButton.OK, MessageBoxImage.Error);
+                    return;
                 }
-            }
 
-            foreach (Project2 project in Projects)
-            {
-                Task.Run(() => getProjectSize(project));
-            }
-            Console.WriteLine("Done");
-        }
+                Projects.Clear();
 
-        private void sortCommand(object parameter)
-        {
-           
-            string column = parameter as string;
-            if (_sortColumn == column)
-            {
-                // Toggle sorting direction 
-                _sortDirection = _sortDirection == ListSortDirection.Ascending ?
-                                                   ListSortDirection.Descending :
-                                                   ListSortDirection.Ascending;
-            }
-            else
-            {
-                _sortColumn = column;
-                _sortDirection = ListSortDirection.Ascending;
-            }
+                List<string> projects = Directory.GetDirectories(_projectFolder).ToList();
+                foreach (string project in projects)
+                {
+                    if (project != null)
+                    {
+                        Projects.Add(new Model.Project2(Path.GetFileName(project), project));
+                    }
+                }
 
-            _projectsDataView.SortDescriptions.Clear();
-            _projectsDataView.SortDescriptions.Add(
-                                     new SortDescription(_sortColumn, _sortDirection));
-            Debug.WriteLine("SORTED");
+                ProcessButtonText = "Cancel";
+
+                foreach (Project2 project in Projects)
+                {
+                    Task.Run(() => getProjectSize(project), token);
+                    
+                }
+            } else
+            {
+                tokenSource.Cancel();
+                ProcessButtonText = "Process";
+            }
+            
         }
 
         #endregion
@@ -168,13 +171,17 @@ namespace WSIP.ViewModel
 
         private void getProjectSize(Project2 project)
         {
+            project.ProcessStatus = "Processing";
             getDirectorySize(project, project.ProjectPath);
-            project.CompletedProcessing = true;
-            
+            if (token.IsCancellationRequested)
+                project.ProcessStatus = "Cancelled";
+            else
+                project.ProcessStatus = "Done";
         }
+
         private void getDirectorySize(Project2 project, string directoryPath)
         {
-            string[] files = new String [0];
+            string[] files = new String[0];
             string[] subdirectorys = new String[0];
 
             try
@@ -188,9 +195,13 @@ namespace WSIP.ViewModel
             {
 
             }
+            if (token.IsCancellationRequested)
+                return;
 
             foreach (String file in files)
             {
+                if (token.IsCancellationRequested)
+                    return;
                 if (Path.GetExtension(file).ToLower() == ".tif")
                     project.NumberOfTIF += 1;
                 if (Path.GetExtension(file).ToLower() == ".las")

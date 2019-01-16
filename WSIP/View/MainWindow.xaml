@@ -9,85 +9,59 @@
         xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
         xmlns:p="clr-namespace:System;assembly=mscorlib"
         DataContext="{DynamicResource ViewModelMain}"
-        Title="What Should I Purge" Height="350" Width="657.3" MinWidth="403" MinHeight="190" Icon="../Resources/Vomited_50.png">
+        Title="What Should I Purge" Height="350" Width="963.3" MinWidth="800" MinHeight="190" Icon="../Resources/Vomited_50.png" FontSize="14">
     <Window.Resources>
         <vm:ViewModelMain x:Key="ViewModelMain"/>
-        
+
     </Window.Resources>
     <Grid>
-        <ListView x:Name="resultsView" Margin="10,78,10,10" ItemsSource="{Binding ProjectsDataView}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Width="45" >
-                        <GridViewColumnHeader 
-                            Content="Status"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="CompletedProcessing"
-                                              />
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <CheckBox Margin="-4,0,-4,0" IsChecked="{Binding CompletedProcessing}"/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="45" >
-                        <GridViewColumnHeader 
-                            Content="Status"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="CompletedProcessing"
-                                              />
-                        <GridViewColumn.CellTemplate>
-                            <DataTemplate>
-                                <Image Height="100" Source=""/>
-                            </DataTemplate>
-                        </GridViewColumn.CellTemplate>
-                    </GridViewColumn>
-                    <GridViewColumn Width="220" DisplayMemberBinding="{Binding Name}">
-                        <GridViewColumnHeader 
-                            Content="Project Name"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="Name"
-                                              />
-                    </GridViewColumn>
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding SimpleSize2}">
-                        <GridViewColumnHeader 
-                            Content="Size (GB)"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="SimpleSize2"
-                                             />
-                    </GridViewColumn>
-                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfGDB}">
-                        <GridViewColumnHeader
-                            Content="GDB Count"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="NumberOfGDB"
-                            />
-                    </GridViewColumn>
-                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfLAS}">
-                        <GridViewColumnHeader
-                            Content="LAS Count"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="NumberOfLAS"
-                            />
-                    </GridViewColumn>
-                    <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfTIF}">
-                        <GridViewColumnHeader
-                            Content="TIF Count"
-                            Command="{Binding SortCommand}"
-                            CommandParameter="NumberOfTIF"
-                            />
-                    </GridViewColumn>
-                </GridView>
-            </ListView.View>
-        </ListView>
+
         <TextBox x:Name="txbProjectFolder" Height="26" Margin="10,41,118,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Content="Process" Margin="0,41,10,0" HorizontalAlignment="Right" Width="72" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResults}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
+        <Button Content="{Binding ProcessButtonText}" Margin="0,41,10,0" HorizontalAlignment="Right" Width="72" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResults}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
         <Label Content="Project Folder" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
         <Button Margin="0,41,87,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Command="{Binding SelectProjectFolder}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}">
             <Button.Content>
                 <Image Source="../Resources/searches-folder.png"/>
             </Button.Content>
         </Button>
+        <DataGrid x:Name="dataGrid" Margin="10,72,10,10" ItemsSource="{Binding ProjectsDataView}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding ProcessStatus}" Header="Status" Width="95">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style TargetType="{x:Type TextBlock}">
+                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                            <Setter Property="TextAlignment" Value="Center"/>
+                            <Style.Triggers>
+                                <Trigger Property="Text" Value="Not Started">
+                                    <Setter Property="Background" Value="#FFE0B2"/>
+                                    <Setter Property="Foreground" Value="#E65100"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Processing">
+                                    <Setter Property="Background" Value="#FFCDD2"/>
+                                    <Setter Property="Foreground" Value="#C62828"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Done">
+                                    <Setter Property="Background" Value="#A5D6A7"/>
+                                    <Setter Property="Foreground" Value="#1B5E20"/>
+                                </Trigger>
+                                <Trigger Property="Text" Value="Cancelled">
+                                    <Setter Property="Background" Value="#FFF176"/>
+                                    <Setter Property="Foreground" Value="#827717"/>
+                                </Trigger>
+                            </Style.Triggers>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="300"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding SimpleSize2}" Header="Size (GB)" Width="100"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding NumberOfGDB}" Header="GDB Count"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding NumberOfLAS}" Header="LAS Count"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding NumberOfTIF}" Header="TIF Count"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding Owner}" Header="Owner"></DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding DateCreated}" Header="Date Created"></DataGridTextColumn>
+            </DataGrid.Columns>
+            
+        </DataGrid>
 
     </Grid>
 </Window>
