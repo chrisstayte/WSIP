@@ -65,7 +65,7 @@ namespace WSIP.Model
             }
         } 
 
-        public double Size
+        public virtual double Size
         {
             get
             {
@@ -105,6 +105,7 @@ namespace WSIP.Model
                 return Math.Round(size, 2).ToString();
             }
         }
+
 
 
     }

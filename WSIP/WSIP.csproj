@@ -72,6 +72,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Converters\BoolToImageConverter.cs" />
     <Compile Include="Helpers\RelayCommand.cs" />
     <Compile Include="Model\Project2.cs" />
     <Compile Include="Utilities\NotifyTaskCompletion.cs" />
@@ -116,7 +117,9 @@
     <Resource Include="Resources\Vomited_50.png" />
     <Resource Include="Resources\searches-folder.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Resources\giphy.gif" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

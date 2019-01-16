@@ -9,26 +9,51 @@
         xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
         xmlns:p="clr-namespace:System;assembly=mscorlib"
         DataContext="{DynamicResource ViewModelMain}"
-        Title="What Should I Purge" Height="350" Width="486.299" MinWidth="403" MinHeight="190" Icon="../Resources/Vomited_50.png">
+        Title="What Should I Purge" Height="350" Width="657.3" MinWidth="403" MinHeight="190" Icon="../Resources/Vomited_50.png">
     <Window.Resources>
         <vm:ViewModelMain x:Key="ViewModelMain"/>
+        
     </Window.Resources>
     <Grid>
         <ListView x:Name="resultsView" Margin="10,78,10,10" ItemsSource="{Binding ProjectsDataView}">
             <ListView.View>
                 <GridView>
-                    <GridViewColumn Width="120" DisplayMemberBinding="{Binding Name}">
+                    <GridViewColumn Width="45" >
+                        <GridViewColumnHeader 
+                            Content="Status"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="CompletedProcessing"
+                                              />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <CheckBox Margin="-4,0,-4,0" IsChecked="{Binding CompletedProcessing}"/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="45" >
+                        <GridViewColumnHeader 
+                            Content="Status"
+                            Command="{Binding SortCommand}"
+                            CommandParameter="CompletedProcessing"
+                                              />
+                        <GridViewColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Height="100" Source=""/>
+                            </DataTemplate>
+                        </GridViewColumn.CellTemplate>
+                    </GridViewColumn>
+                    <GridViewColumn Width="220" DisplayMemberBinding="{Binding Name}">
                         <GridViewColumnHeader 
                             Content="Project Name"
                             Command="{Binding SortCommand}"
                             CommandParameter="Name"
                                               />
                     </GridViewColumn>
-                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding SimpleSize}">
+                    <GridViewColumn Width="100" DisplayMemberBinding="{Binding SimpleSize2}">
                         <GridViewColumnHeader 
                             Content="Size (GB)"
                             Command="{Binding SortCommand}"
-                            CommandParameter="SimpleSize"
+                            CommandParameter="SimpleSize2"
                                              />
                     </GridViewColumn>
                     <GridViewColumn Width="75" DisplayMemberBinding="{Binding NumberOfGDB}">
@@ -56,7 +81,7 @@
             </ListView.View>
         </ListView>
         <TextBox x:Name="txbProjectFolder" Height="26" Margin="10,41,118,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Content="Process" Margin="0,41,7,0" HorizontalAlignment="Right" Width="75" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResults}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
+        <Button Content="Process" Margin="0,41,10,0" HorizontalAlignment="Right" Width="72" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResults}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
         <Label Content="Project Folder" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
         <Button Margin="0,41,87,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Command="{Binding SelectProjectFolder}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}">
             <Button.Content>

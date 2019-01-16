@@ -96,8 +96,6 @@ namespace WSIP.ViewModel
 
         #endregion
 
-        
-
         #region Events
 
         private void selectProjectFolder(object parameter)
@@ -143,6 +141,7 @@ namespace WSIP.ViewModel
 
         private void sortCommand(object parameter)
         {
+           
             string column = parameter as string;
             if (_sortColumn == column)
             {
@@ -170,6 +169,7 @@ namespace WSIP.ViewModel
         private void getProjectSize(Project2 project)
         {
             getDirectorySize(project, project.ProjectPath);
+            project.CompletedProcessing = true;
             
         }
         private void getDirectorySize(Project2 project, string directoryPath)
