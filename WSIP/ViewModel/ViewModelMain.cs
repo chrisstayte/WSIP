@@ -125,8 +125,9 @@ namespace WSIP.ViewModel
             
         }
 
-        private void processResults(object parameter)
+        private async void processResults(object parameter)
         {
+            
     
             if (ProcessButtonText == "Process")
             {
@@ -152,15 +153,25 @@ namespace WSIP.ViewModel
 
                 ProcessButtonText = "Cancel";
 
-                foreach (Project2 project in Projects)
+                var tasks = new List<Task>();
+
+                tasks.AddRange(Projects.Select(project => Task.Run(() => GetProjectInformation(project), token)));
+
+                Task task = Task.WhenAll(tasks.ToArray());
+
+                try
                 {
-                    Task.Run(() => getProjectSize(project), token);
-                    
+                    await task;
                 }
+                catch { }
+
+                if (task.Status == TaskStatus.RanToCompletion)
+                    ResetProcessButton();
+
             } else
             {
                 tokenSource.Cancel();
-                ProcessButtonText = "Process";
+                ResetProcessButton();
             }
             
         }
@@ -169,14 +180,40 @@ namespace WSIP.ViewModel
 
         #region Methods
 
-        private void getProjectSize(Project2 project)
+        private void ResetProcessButton()
+        {
+            ProcessButtonText = "Process";
+        }
+             
+        private void GetProjectInformation(Project2 project)
         {
             project.ProcessStatus = "Processing";
+            getDirectoryInfo(project, project.ProjectPath);
             getDirectorySize(project, project.ProjectPath);
             if (token.IsCancellationRequested)
                 project.ProcessStatus = "Cancelled";
             else
                 project.ProcessStatus = "Done";
+        }
+
+        private void getDirectoryInfo(Project2 project, string directoryPath)
+        {
+            DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
+
+            project.DateCreated = String.Format("{0}/{1}/{2}", dirInfo.CreationTime.Month, dirInfo.CreationTime.Day, dirInfo.CreationTime.Year);
+
+            string owner = "Unknown";
+
+            try
+            {
+                owner = System.IO.File.GetAccessControl(directoryPath).GetOwner(typeof(System.Security.Principal.NTAccount)).ToString();
+                owner = Path.GetFileName(owner);
+            }
+            catch  (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            project.Owner = owner;
         }
 
         private void getDirectorySize(Project2 project, string directoryPath)
@@ -188,18 +225,20 @@ namespace WSIP.ViewModel
             {
                 files = Directory.GetFiles(directoryPath);
                 subdirectorys = Directory.GetDirectories(directoryPath);
-#pragma warning disable CS0168 // Variable is declared but never used
-            }
-            catch (Exception ex)
-#pragma warning restore CS0168 // Variable is declared but never used
-            {
 
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+            // If Cancel Return
             if (token.IsCancellationRequested)
                 return;
 
             foreach (String file in files)
             {
+                // If Cancel Return
                 if (token.IsCancellationRequested)
                     return;
                 if (Path.GetExtension(file).ToLower() == ".tif")
@@ -211,6 +250,9 @@ namespace WSIP.ViewModel
             }
             foreach (String subdirectory in subdirectorys)
             {
+                // If Cancel Return
+                if (token.IsCancellationRequested)
+                    return;
                 if (Path.GetExtension(subdirectory).ToLower() == ".gdb")
                     project.NumberOfGDB += 1;
                 getDirectorySize(project, subdirectory);
@@ -224,12 +266,10 @@ namespace WSIP.ViewModel
             {
                 FileInfo fi = new FileInfo(filePath);
                 project.Size += fi.Length;
-#pragma warning disable CS0168 // Variable is declared but never used
             }
             catch (Exception ex)
-#pragma warning restore CS0168 // Variable is declared but never used
             {
-
+                Debug.WriteLine(ex.Message);
             }
         }
 
