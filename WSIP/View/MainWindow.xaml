@@ -8,25 +8,54 @@
         xmlns:m="clr-namespace:WSIP.Model"
         xmlns:s="clr-namespace:System.Collections;assembly=mscorlib"
         xmlns:p="clr-namespace:System;assembly=mscorlib"
+        xmlns:behaviors="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
         DataContext="{DynamicResource ViewModelMain}"
-        Title="What Should I Purge" Height="350" Width="963.3" MinWidth="800" MinHeight="190" Icon="../Resources/Vomited_50.png" FontSize="14">
+        Title="What Should I Purge" Height="559" Width="963.3" MinWidth="800" MinHeight="210" Icon="../Resources/Vomited_50.png" FontSize="14">
     <Window.Resources>
         <vm:ViewModelMain x:Key="ViewModelMain"/>
-
     </Window.Resources>
     <Grid>
-
-        <TextBox x:Name="txbProjectFolder" Height="26" Margin="10,41,118,0" TextWrapping="Wrap" VerticalAlignment="Top" VerticalContentAlignment="Center" Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-        <Button Content="{Binding ProcessButtonText}" Margin="0,41,10,0" HorizontalAlignment="Right" Width="72" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResults}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
+        <TextBox x:Name="txbProjectFolder" 
+                 Height="26" Margin="10,41,118,0"
+                 TextWrapping="Wrap"
+                 VerticalAlignment="Top"
+                 VerticalContentAlignment="Center" 
+                 Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                 behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding AutoCompletePaths}"
+                />
+        <Button Content="{Binding ProcessButtonText}" Margin="0,41,10,0" HorizontalAlignment="Right" Width="72" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResultsCommand}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
         <Label Content="Project Folder" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
-        <Button Margin="0,41,87,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Command="{Binding SelectProjectFolder}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}">
+        <Button Margin="0,41,87,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Command="{Binding SelectProjectFolderCommand}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}">
             <Button.Content>
                 <Image Source="../Resources/searches-folder.png"/>
             </Button.Content>
         </Button>
-        <DataGrid x:Name="dataGrid" Margin="10,72,10,10" ItemsSource="{Binding ProjectsDataView}" AutoGenerateColumns="False">
+        <DataGrid 
+            x:Name="dataGrid" 
+            Margin="10,72,10,38" 
+            ItemsSource="{Binding ProjectsDataView}" 
+            SelectedItem="{Binding SelectedCell}"
+            AutoGenerateColumns="False"
+            SelectionUnit="Cell" CanUserResizeRows="False" CanUserDeleteRows="False" SelectionMode="Single">
+            <DataGrid.CellStyle>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Style.Triggers>
+                        <Trigger Property="DataGridCell.IsSelected" Value="True">
+                            <Setter Property="BorderBrush" Value="Transparent"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+                            <Setter Property="Background" Value="Black"/>
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+            </DataGrid.CellStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding ProcessStatus}" Header="Status" Width="95">
+                <DataGridTextColumn 
+                    Binding="{Binding ProcessStatus}" 
+                    Header="Status" 
+                    Width="95"
+                    IsReadOnly="True"
+                    CanUserReorder="False" 
+                    CanUserResize="False">
                     <DataGridTextColumn.ElementStyle>
                         <Style TargetType="{x:Type TextBlock}">
                             <Setter Property="HorizontalAlignment" Value="Stretch"/>
@@ -52,16 +81,45 @@
                         </Style>
                     </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Name}" Header="Name" Width="300"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding SimpleSize2}" Header="Size (GB)" Width="100"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding NumberOfGDB}" Header="GDB Count"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding NumberOfLAS}" Header="LAS Count"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding NumberOfTIF}" Header="TIF Count"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding Owner}" Header="Owner"></DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding DateCreated}" Header="Date Created"></DataGridTextColumn>
+                <DataGridTextColumn 
+                    Binding="{Binding Name}" 
+                    Header="Name" Width="300" 
+                    IsReadOnly="True"
+                    >
+                </DataGridTextColumn>
+                <DataGridTextColumn 
+                    Binding="{Binding SimpleSize2}"
+                    Header="Size (GB)"
+                    Width="100"
+                    IsReadOnly="True" MaxWidth="150" MinWidth="70"  
+                    />
+                <DataGridTextColumn 
+                    Binding="{Binding NumberOfGDB}"
+                    Header="GDB Count"
+                    IsReadOnly="True"/>
+                <DataGridTextColumn
+                    Binding="{Binding NumberOfLAS}" 
+                    Header="LAS Count"
+                    IsReadOnly="True"/>
+                <DataGridTextColumn
+                    Binding="{Binding NumberOfTIF}" 
+                    Header="TIF Count"
+                    IsReadOnly="True"/>
+                <DataGridTextColumn 
+                    Binding="{Binding Owner}" 
+                    Header="Owner"
+                    IsReadOnly="True"/>
+                <DataGridTextColumn 
+                    Binding="{Binding DateCreated}" 
+                    Header="Date Created"
+                    IsReadOnly="True"/>
+                <DataGridCheckBoxColumn
+                    Binding="{Binding CustomCheckBox, Mode=TwoWay}"
+                    Header="Check"
+                    
+                    />
             </DataGrid.Columns>
-            
         </DataGrid>
-
+        <Button x:Name="btn_export" Content="Export Table" Margin="0,0,10,10" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="128"/>
     </Grid>
 </Window>

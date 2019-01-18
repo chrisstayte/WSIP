@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace WSIP.Model
         private string _processStatus;
         private string _owner;
         private string _dateCreated;
+        private bool _customCheckBox;
 
         public Project2(string name, string path) : base(name, path)
         {
@@ -21,6 +23,7 @@ namespace WSIP.Model
             _processStatus = "Not Started";
             _owner = "Unknown";
             _dateCreated = "Unknown";
+            _customCheckBox = false;
         }
 
 
@@ -95,6 +98,19 @@ namespace WSIP.Model
             }
         }
 
+        public bool CustomCheckBox
+        {
+            get
+            {
+                return _customCheckBox;
+            }
+            set
+            {
+                _customCheckBox = value;
+                NotifyPropertyChanged();
+                Debug.WriteLine(value.ToString());
+            }
+        }
 
         public override double Size
         {

@@ -24,5 +24,6 @@ namespace WSIP.View
         {
             InitializeComponent();
         }
+
     }
 }
