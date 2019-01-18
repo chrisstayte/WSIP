@@ -23,7 +23,15 @@
                  Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding AutoCompletePaths}"
                 />
-        <Button Content="{Binding ProcessButtonText}" Margin="0,41,10,0" HorizontalAlignment="Right" Width="72" Height="26" VerticalAlignment="Top" Command="{Binding ProcessResultsCommand}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
+        <Button 
+            Content="{Binding ProcessButtonText}"
+            Margin="0,41,10,0" 
+            HorizontalAlignment="Right"
+            Width="72"
+            Height="26"
+            VerticalAlignment="Top" 
+            Command="{Binding ProcessResultsCommand}" 
+            CommandParameter="{Binding Text, ElementName=txbProjectFolder}"/>
         <Label Content="Project Folder" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" FontWeight="Bold" FontSize="14"/>
         <Button Margin="0,41,87,0" Height="26" VerticalAlignment="Top" HorizontalAlignment="Right" Width="26" Command="{Binding SelectProjectFolderCommand}" CommandParameter="{Binding Text, ElementName=txbProjectFolder}">
             <Button.Content>
@@ -120,6 +128,15 @@
                     />
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="btn_export" Content="Export Table" Margin="0,0,10,10" Height="23" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="128"/>
+        <Button 
+            x:Name="btn_export"
+            Content="Export Table"
+            Margin="0,0,10,10"
+            Height="23"
+            VerticalAlignment="Bottom" 
+            HorizontalAlignment="Right"
+            Width="128"
+            Command="{Binding ExportDataCommand}"
+            CommandParameter="{Binding ElementName=dataGrid}"/>
     </Grid>
 </Window>

@@ -15,6 +15,7 @@ using System.Windows.Forms;
 using WSIP.Helpers;
 using WSIP.Model;
 using Notifications.Wpf;
+using System.Data;
 
 namespace WSIP.ViewModel
 {
@@ -42,7 +43,7 @@ namespace WSIP.ViewModel
         // Relay Commands
         public RelayCommand SelectProjectFolderCommand { get; private set; }
         public RelayCommand ProcessResultsCommand { get; private set; }
-
+        public RelayCommand ExportDataCommand { get; private set; }
 
         private List<String> _autocompletePaths;
         public List<String> AutoCompletePaths
@@ -57,10 +58,7 @@ namespace WSIP.ViewModel
                 NotifyPropertyChanged();
             }
         }
-
-
-        
-        
+ 
         private CollectionViewSource _projectsDataView;
         public ListCollectionView ProjectsDataView
         {
@@ -109,6 +107,7 @@ namespace WSIP.ViewModel
         {
             SelectProjectFolderCommand = new RelayCommand(SelectProjectFolder);
             ProcessResultsCommand = new RelayCommand(ProcessResults);
+            ExportDataCommand = new RelayCommand(ExportData);
             Projects = new ObservableCollection<Project2>();
 
             ProcessButtonText = "Process";
@@ -235,6 +234,37 @@ namespace WSIP.ViewModel
         private void SelectedProject(object parameter, SelectedCellsChangedEventArgs e)
         {
             ProjectFolder = String.Format(@"{0}\{1}", _projectFolder, (string)parameter);
+        }
+
+        private void ExportData(object parameter)
+        {
+            System.Windows.Controls.DataGrid dataGrid = (System.Windows.Controls.DataGrid)parameter;
+            var dataTable = (DataTable)dataGrid.DataSource;
+
+            Microsoft.Office.Interop.Excel._Application excel = new Microsoft.Office.Interop.Excel.Application();
+
+            Microsoft.Office.Interop.Excel._Workbook workbook = excel.Workbooks.Add(Type.Missing);
+
+            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
+
+            try
+            {
+                worksheet = workbook.ActiveSheet;
+
+                worksheet.Name = "ExportedDataFromGRID";
+
+                int cellRowIndex = 1;
+                int cellColumnIndex = 1;
+
+                // Loop through each row and read value from each column
+                
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+
         }
 
         #endregion
