@@ -45,17 +45,6 @@
             SelectedItem="{Binding SelectedCell}"
             AutoGenerateColumns="False"
             SelectionUnit="Cell" CanUserResizeRows="False" CanUserDeleteRows="False" SelectionMode="Single">
-            <DataGrid.CellStyle>
-                <Style TargetType="{x:Type DataGridCell}">
-                    <Style.Triggers>
-                        <Trigger Property="DataGridCell.IsSelected" Value="True">
-                            <Setter Property="BorderBrush" Value="Transparent"/>
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
-                            <Setter Property="Background" Value="Black"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </DataGrid.CellStyle>
             <DataGrid.Columns>
                 <DataGridTextColumn 
                     Binding="{Binding ProcessStatus}" 
@@ -137,6 +126,6 @@
             HorizontalAlignment="Right"
             Width="128"
             Command="{Binding ExportDataCommand}"
-            CommandParameter="{Binding ElementName=dataGrid}"/>
+            />
     </Grid>
 </Window>

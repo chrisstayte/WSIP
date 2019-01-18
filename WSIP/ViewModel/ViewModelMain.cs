@@ -238,8 +238,7 @@ namespace WSIP.ViewModel
 
         private void ExportData(object parameter)
         {
-            System.Windows.Controls.DataGrid dataGrid = (System.Windows.Controls.DataGrid)parameter;
-            var dataTable = (DataTable)dataGrid.DataSource;
+            
 
             Microsoft.Office.Interop.Excel._Application excel = new Microsoft.Office.Interop.Excel.Application();
 
@@ -253,8 +252,7 @@ namespace WSIP.ViewModel
 
                 worksheet.Name = "ExportedDataFromGRID";
 
-                int cellRowIndex = 1;
-                int cellColumnIndex = 1;
+       
 
                 // Loop through each row and read value from each column
                 
