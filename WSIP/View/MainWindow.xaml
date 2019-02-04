@@ -126,6 +126,7 @@
             HorizontalAlignment="Right"
             Width="128"
             Command="{Binding ExportDataCommand}"
+            CommandParameter="{Binding ElementName=dataGrid}"
             />
     </Grid>
 </Window>

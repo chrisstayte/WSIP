@@ -16,6 +16,7 @@ using WSIP.Helpers;
 using WSIP.Model;
 using Notifications.Wpf;
 using System.Data;
+using System.Text;
 
 namespace WSIP.ViewModel
 {
@@ -38,7 +39,7 @@ namespace WSIP.ViewModel
             }
         }
 
-        private NotificationManager _notificationManager = new NotificationManager();
+        private readonly NotificationManager _notificationManager = new NotificationManager();
 
         // Relay Commands
         public RelayCommand SelectProjectFolderCommand { get; private set; }
@@ -238,32 +239,57 @@ namespace WSIP.ViewModel
 
         private void ExportData(object parameter)
         {
-            
+            System.Windows.Controls.DataGrid dataGrid = parameter as System.Windows.Controls.DataGrid;
 
-            Microsoft.Office.Interop.Excel._Application excel = new Microsoft.Office.Interop.Excel.Application();
+            SaveFileDialog dialog = new SaveFileDialog();
 
-            Microsoft.Office.Interop.Excel._Workbook workbook = excel.Workbooks.Add(Type.Missing);
+            dialog.Filter = "CSV | *.csv";
 
-            Microsoft.Office.Interop.Excel._Worksheet worksheet = null;
-
-            try
+            if (dialog.ShowDialog() == DialogResult.OK)
             {
-                worksheet = workbook.ActiveSheet;
+                string exportPath = dialog.FileName;
 
-                worksheet.Name = "ExportedDataFromGRID";
+                List<String> headers = new List<string>();
 
-       
+                using (StreamWriter wr = new StreamWriter(exportPath))
+                {
+                    int cols = dataGrid.Columns.Count;
 
-                // Loop through each row and read value from each column
+                    for (int i = 0; i < cols; i++)
+                    {
+                        headers.Add(dataGrid.Columns[i].Header.ToString());
+                    }
+
+                   
+                    wr.WriteLine(String.Join(",", headers));
+
+                    foreach (Project2 project in _projects)
+                    {
+                        List<String> data = new List<string>();
+
+                        data.Add(project.Name);
+                        data.Add(project.SimpleSize2.ToString());
+                        data.Add(project.NumberOfGDB.ToString());
+                        data.Add(project.NumberOfLAS.ToString());
+                        data.Add(project.NumberOfTIF.ToString());
+                        data.Add(project.Owner);
+                        data.Add(project.DateCreated);
+                        data.Add(project.CustomCheckBox.ToString());
+
+                        wr.WriteLine(String.Join(",", data));
+                    }
+
+                   
+                    
+                    
+                }
+
                 
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
 
+            }
 
         }
+
 
         #endregion
 
@@ -362,7 +388,7 @@ namespace WSIP.ViewModel
             }
         }
 
-        #endregion
+        #endregion 
 
     }
 }
