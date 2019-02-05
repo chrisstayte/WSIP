@@ -14,10 +14,7 @@ using System.Windows.Data;
 using System.Windows.Forms;
 using WSIP.Helpers;
 using WSIP.Model;
-using Notifications.Wpf;
 using System.Data;
-using System.Text;
-
 namespace WSIP.ViewModel
 {
     class ViewModelMain : ViewModelBase
@@ -39,7 +36,6 @@ namespace WSIP.ViewModel
             }
         }
 
-        private readonly NotificationManager _notificationManager = new NotificationManager();
 
         // Relay Commands
         public RelayCommand SelectProjectFolderCommand { get; private set; }
