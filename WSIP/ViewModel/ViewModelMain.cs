@@ -251,7 +251,7 @@ namespace WSIP.ViewModel
                 {
                     int cols = dataGrid.Columns.Count;
 
-                    for (int i = 0; i < cols; i++)
+                    for (int i = 1; i < cols; i++)
                     {
                         headers.Add(dataGrid.Columns[i].Header.ToString());
                     }
