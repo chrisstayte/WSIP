@@ -15,6 +15,7 @@ namespace WSIP.Model
         private string _owner;
         private string _dateCreated;
         private bool _customCheckBox;
+        private string _dateLastModified;
 
         public Project2(string name, string path) : base(name, path)
         {
@@ -23,6 +24,7 @@ namespace WSIP.Model
             _processStatus = "Not Started";
             _owner = "Unknown";
             _dateCreated = "Unknown";
+            _dateLastModified = "Unknown";
             _customCheckBox = false;
         }
 
@@ -95,6 +97,19 @@ namespace WSIP.Model
             {
                 _dateCreated = value;
                 NotifyPropertyChanged("DateCreated");
+            }
+        }
+
+        public string DateLastModified
+        {
+            get
+            {
+                return _dateLastModified;
+            }
+            set
+            {
+                _dateLastModified = value;
+                NotifyPropertyChanged("DateLastModified");
             }
         }
 

@@ -36,7 +36,6 @@ namespace WSIP.ViewModel
             }
         }
 
-
         // Relay Commands
         public RelayCommand SelectProjectFolderCommand { get; private set; }
         public RelayCommand ProcessResultsCommand { get; private set; }
@@ -237,9 +236,10 @@ namespace WSIP.ViewModel
         {
             System.Windows.Controls.DataGrid dataGrid = parameter as System.Windows.Controls.DataGrid;
 
-            SaveFileDialog dialog = new SaveFileDialog();
-
-            dialog.Filter = "CSV | *.csv";
+            SaveFileDialog dialog = new SaveFileDialog
+            {
+                Filter = "CSV | *.csv"
+            };
 
             if (dialog.ShowDialog() == DialogResult.OK)
             {
@@ -255,35 +255,28 @@ namespace WSIP.ViewModel
                     {
                         headers.Add(dataGrid.Columns[i].Header.ToString());
                     }
-
-                   
+                 
                     wr.WriteLine(String.Join(",", headers));
 
                     foreach (Project2 project in _projects)
                     {
-                        List<String> data = new List<string>();
-
-                        data.Add(project.Name);
-                        data.Add(project.SimpleSize2.ToString());
-                        data.Add(project.NumberOfGDB.ToString());
-                        data.Add(project.NumberOfLAS.ToString());
-                        data.Add(project.NumberOfTIF.ToString());
-                        data.Add(project.Owner);
-                        data.Add(project.DateCreated);
-                        data.Add(project.CustomCheckBox.ToString());
+                        List<String> data = new List<string>
+                        {
+                            project.Name,
+                            project.SimpleSize2.ToString(),
+                            project.NumberOfGDB.ToString(),
+                            project.NumberOfLAS.ToString(),
+                            project.NumberOfTIF.ToString(),
+                            project.Owner,
+                            project.DateCreated,
+                            project.DateLastModified,
+                            project.CustomCheckBox.ToString()
+                        };
 
                         wr.WriteLine(String.Join(",", data));
-                    }
-
-                   
-                    
-                    
+                    }                     
                 }
-
-                
-
             }
-
         }
 
 
@@ -311,7 +304,8 @@ namespace WSIP.ViewModel
         {
             DirectoryInfo dirInfo = new DirectoryInfo(directoryPath);
 
-            project.DateCreated = String.Format("{0}/{1}/{2}", dirInfo.CreationTime.Month, dirInfo.CreationTime.Day, dirInfo.CreationTime.Year);
+            project.DateCreated = dirInfo.CreationTime.ToShortDateString();
+            project.DateLastModified = dirInfo.LastWriteTime.ToShortDateString();
 
             string owner = "Unknown";
 
