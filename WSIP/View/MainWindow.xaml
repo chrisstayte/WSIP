@@ -69,6 +69,7 @@
                     Text="WSIP"
                     VerticalAlignment="Center"
                     Style="{StaticResource MaterialDesignBody2TextBlock}"
+                    ToolTip="{Binding VersionNumber}"
                     />
                 <StackPanel
                             Orientation="Horizontal"
@@ -85,17 +86,22 @@
                  Text="{Binding ProjectFolder, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                  behaviors:AutoCompleteBehavior.AutoCompleteItemsSource="{Binding AutoCompletePaths}"
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
+                 IsEnabled="{Binding ProcessNotRunning}"
                 />
         <Button 
             Content="{Binding ProcessButtonText}"
             Margin="0,0,10,10" 
+            ToolTip="Process Statistics"
             HorizontalAlignment="Right"
             Width="128"
             Height="33"
             Style="{StaticResource MaterialDesignRaisedButton}"
             VerticalAlignment="Bottom" 
             Command="{Binding ProcessResultsCommand}" 
-            CommandParameter="{Binding Text, ElementName=txbProjectFolder}" RenderTransformOrigin="0.602,1.348"/>
+            CommandParameter="{Binding Text, ElementName=txbProjectFolder}" 
+            materialDesign:ButtonProgressAssist.Value="-1"
+            materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding ProcessRunning}"
+            materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding ProcessRunning}"/>
         <Button 
             Margin="0,67,10,0"            
             VerticalAlignment="Top" 
@@ -104,7 +110,9 @@
             CommandParameter="{Binding Text, ElementName=txbProjectFolder}"
             Style="{StaticResource MaterialDesignRaisedButton}"
             Height="33" 
-            Width="47">
+            Width="47"
+            IsEnabled="{Binding ProcessNotRunning}"
+            ToolTip="Browse Folders">
             <materialDesign:PackIcon Kind="Folder" Width="16" Height="16"/>
         </Button>
         <DataGrid 
@@ -192,6 +200,7 @@
         </DataGrid>
         <Button 
             x:Name="btn_export"
+            ToolTip="Export Current Table As CSV"
             Content="Export Table"
             Margin="10,0,0,10"
             Height="32"

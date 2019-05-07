@@ -95,9 +95,45 @@ namespace WSIP.ViewModel
             }
         }
 
-
         private CancellationTokenSource tokenSource;
         private CancellationToken token;
+
+        private bool _processRunning;
+        public bool ProcessRunning
+        {
+            get
+            {
+                return _processRunning;
+            }
+            set
+            {
+                _processRunning = value;
+                NotifyPropertyChanged();
+                NotifyPropertyChanged("ProcessNotRunning");
+            }
+        }
+
+        public bool ProcessNotRunning
+        {
+            get
+            {
+                return !_processRunning;
+            }
+        }
+
+        private string _versionNumber;
+        public string VersionNumber
+        {
+            get
+            {
+                return _versionNumber;
+            }
+            set
+            {
+                _versionNumber = value;
+                NotifyPropertyChanged();
+            }
+        }
 
         public ViewModelMain()
         {
@@ -108,20 +144,21 @@ namespace WSIP.ViewModel
 
             ProcessButtonText = "Process";
 
-            
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            VersionNumber = $"Version {version.Major}.{version.Minor}";
 
-            AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            {
-                string resourceName = new AssemblyName(args.Name).Name + ".dll";
-                string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
+            //AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
+            //{
+            //    string resourceName = new AssemblyName(args.Name).Name + ".dll";
+            //    string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
 
-                using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
-                {
-                    Byte[] assemblyData = new Byte[stream.Length];
-                    stream.Read(assemblyData, 0, assemblyData.Length);
-                    return Assembly.Load(assemblyData);
-                }
-            };
+            //    using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
+            //    {
+            //        Byte[] assemblyData = new Byte[stream.Length];
+            //        stream.Read(assemblyData, 0, assemblyData.Length);
+            //        return Assembly.Load(assemblyData);
+            //    }
+            //};
         }
 
 
@@ -162,6 +199,7 @@ namespace WSIP.ViewModel
 
                 tokenSource = new CancellationTokenSource();
                 token = tokenSource.Token;
+                ProcessRunning = true;
 
                 //_notificationManager.Show(new NotificationContent
                 //{
@@ -287,6 +325,7 @@ namespace WSIP.ViewModel
         private void ResetProcessButton()
         {
             ProcessButtonText = "Process";
+            ProcessRunning = false;
         }
              
         private void GetProjectInformation(Project2 project)
