@@ -15,6 +15,9 @@ using System.Windows.Forms;
 using WSIP.Helpers;
 using WSIP.Model;
 using System.Data;
+using WSIP.View;
+using MaterialDesignThemes.Wpf;
+
 namespace WSIP.ViewModel
 {
     class ViewModelMain : ViewModelBase
@@ -187,7 +190,11 @@ namespace WSIP.ViewModel
             {
                 if (!Directory.Exists(_projectFolder))
                 {
-                    System.Windows.MessageBox.Show("Project Folder Doesn't Exist!", "WSIP", MessageBoxButton.OK, MessageBoxImage.Error);
+                    var view = new AlertView
+                    {
+                        DataContext = new AlertViewModel("Project Folder Doesn't Exist")
+                    };
+                    await DialogHost.Show(view, "RootDialog");
                     //_notificationManager.Show(new NotificationContent
                     //{
                     //    Title = "What Should I Purge",

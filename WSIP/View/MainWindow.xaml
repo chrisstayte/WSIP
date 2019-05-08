@@ -13,6 +13,7 @@
     <Window.Resources>
         <vm:ViewModelMain x:Key="ViewModelMain"/>
     </Window.Resources>
+    <materialDesign:DialogHost Identifier="RootDialog">
     <Grid>
         <Grid.Resources>
             <ResourceDictionary>
@@ -64,6 +65,7 @@
                     Width="24"
                     Height="24"
                     Margin="0,0,10,0"
+                    ToolTip="Chris Stayte"
                     />
                 <TextBlock
                     Text="WSIP"
@@ -212,4 +214,5 @@
             Style="{StaticResource MaterialDesignFlatButton}"
             />
     </Grid>
+    </materialDesign:DialogHost>
 </Window>
