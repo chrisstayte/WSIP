@@ -1,11 +1,21 @@
 ﻿<Window x:Class="WSIP.View.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:WSIP.ViewModel"
         xmlns:behaviors="clr-namespace:WPFTextBoxAutoComplete;assembly=WPFTextBoxAutoComplete"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:wpf="clr-namespace:MaterialDesignThemes.Wpf;assembly=MaterialDesignThemes.Wpf"
         DataContext="{DynamicResource ViewModelMain}"
-        Title="What Should I Purge" Height="559" Width="1201.3" MinWidth="800" MinHeight="210" Icon="../Resources/Vomited_50.png" FontSize="14">
+        Height="559" 
+        Width="1201.3" 
+        MinWidth="800" 
+        MinHeight="210" 
+        Icon="../Resources/Vomited_50.png" 
+        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        >
     <WindowChrome.WindowChrome>
         <WindowChrome x:Name="chrome" ResizeBorderThickness="6" CaptionHeight="0"
                       GlassFrameThickness="0" CornerRadius="0" UseAeroCaptionButtons="False"/>
@@ -14,23 +24,14 @@
         <vm:ViewModelMain x:Key="ViewModelMain"/>
     </Window.Resources>
     <materialDesign:DialogHost Identifier="RootDialog">
-    <Grid>
-        <Grid.Resources>
-            <ResourceDictionary>
-                <ResourceDictionary.MergedDictionaries>
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.Button.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.PopupBox.xaml" />
-                    <ResourceDictionary Source="pack://application:,,,/MaterialDesignThemes.Wpf;component/Themes/MaterialDesignTheme.TextBlock.xaml" />
-                </ResourceDictionary.MergedDictionaries>
-            </ResourceDictionary>
-        </Grid.Resources>
-        <materialDesign:ColorZone
+        <Grid>
+            <materialDesign:ColorZone
             Mode="PrimaryMid"
             Padding="8" 
             Grid.ColumnSpan="2"
             MouseDown="ColorZone_MouseDown">
-            <DockPanel>
-                <Button
+                <DockPanel>
+                    <Button
                     Name="Close"
                     Click="Close_Click"
                     ToolTip="Close"
@@ -38,9 +39,9 @@
                     DockPanel.Dock="Right"
                     Style="{StaticResource MaterialDesignToolForegroundButton}"
                     Margin="0,0,10,0">
-                    <materialDesign:PackIcon Kind="Close" Height="24" Width="24"/>
-                </Button>
-                <Button
+                        <materialDesign:PackIcon Kind="Close" Height="24" Width="24"/>
+                    </Button>
+                    <Button
                     x:Name="Maximize"
                     VerticalAlignment="Center"
                     DockPanel.Dock="Right"
@@ -48,9 +49,9 @@
                     ToolTip="Maximize"
                     Style="{StaticResource MaterialDesignToolForegroundButton}"
                     Margin="0,0,10,0">
-                    <materialDesign:PackIcon Kind="WindowMaximize" Height="24" Width="24"/>
-                </Button>
-                <Button
+                        <materialDesign:PackIcon Kind="WindowMaximize" Height="24" Width="24"/>
+                    </Button>
+                    <Button
                     x:Name="Minimize"
                     VerticalAlignment="Center"
                     DockPanel.Dock="Right"
@@ -58,29 +59,44 @@
                     Margin="0,0,10,0"
                     Click="Minimize_Click"
                     ToolTip="Minimize">
-                    <materialDesign:PackIcon Kind="WindowMinimize" Height="24" Width="24"/>
-                </Button>
-                <Image
+                        <materialDesign:PackIcon Kind="WindowMinimize" Height="24" Width="24"/>
+                    </Button>
+                    <StackPanel
+                        DockPanel.Dock="Right"
+                        Width="40"/>
+                    <ToggleButton
+                        Style="{StaticResource MaterialDesignSwitchAccentToggleButton}"
+                        IsChecked="{Binding Settings.DarkMode}"
+                        Command="{Binding SetThemeCommand}"
+                        VerticalAlignment="Center"
+                        DockPanel.Dock="Right">
+                    </ToggleButton>
+                    <TextBlock 
+                        Text="{Binding ThemeName}"
+                        Style="{StaticResource MaterialDesignBody2TextBlock}"
+                        DockPanel.Dock="Right"
+                        VerticalAlignment="Center"
+                        Margin="0, 0, 10, 0"/>
+                    <Image
                     Source="../Resources/Vomited_50.png"
                     Width="24"
                     Height="24"
                     Margin="0,0,10,0"
                     ToolTip="Chris Stayte"
                     />
-                <TextBlock
+                    <TextBlock
                     Text="WSIP"
                     VerticalAlignment="Center"
                     Style="{StaticResource MaterialDesignBody2TextBlock}"
                     ToolTip="{Binding VersionNumber}"
                     />
-                <StackPanel
+                    <StackPanel
                             Orientation="Horizontal"
                             materialDesign:RippleAssist.IsCentered="True"/>
-            </DockPanel>
-        </materialDesign:ColorZone>
-
-        <TextBox x:Name="txbProjectFolder" 
-                 Height="47" Margin="10,53,62,0"
+                </DockPanel>
+            </materialDesign:ColorZone>
+            <TextBox
+                 Height="38" Margin="10,53,62,0"
                  TextWrapping="Wrap"
                  VerticalAlignment="Top"
                  VerticalContentAlignment="Center" 
@@ -90,7 +106,7 @@
                  Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                  IsEnabled="{Binding ProcessNotRunning}"
                 />
-        <Button 
+            <Button 
             Content="{Binding ProcessButtonText}"
             Margin="0,0,10,10" 
             ToolTip="Process Statistics"
@@ -104,8 +120,8 @@
             materialDesign:ButtonProgressAssist.Value="-1"
             materialDesign:ButtonProgressAssist.IsIndicatorVisible="{Binding ProcessRunning}"
             materialDesign:ButtonProgressAssist.IsIndeterminate="{Binding ProcessRunning}"/>
-        <Button 
-            Margin="0,67,10,0"            
+            <Button 
+            Margin="0,58,10,0"            
             VerticalAlignment="Top" 
             HorizontalAlignment="Right"           
             Command="{Binding SelectProjectFolderCommand}" 
@@ -115,92 +131,100 @@
             Width="47"
             IsEnabled="{Binding ProcessNotRunning}"
             ToolTip="Browse Folders">
-            <materialDesign:PackIcon Kind="Folder" Width="16" Height="16"/>
-        </Button>
-        <DataGrid 
+                <materialDesign:PackIcon Kind="Folder" Width="16" Height="16"/>
+            </Button>
+            <DataGrid 
             x:Name="dataGrid" 
-            Margin="10,105,10,48" 
+            Margin="10,96,10,48" 
             ItemsSource="{Binding ProjectsDataView}" 
             SelectedItem="{Binding SelectedCell}"
             AutoGenerateColumns="False"
             SelectionUnit="Cell" CanUserResizeRows="False" CanUserDeleteRows="False" SelectionMode="Single">
-            <DataGrid.Columns>
-                <DataGridTextColumn 
+                <DataGrid.Columns>
+                    <DataGridTextColumn 
                     Binding="{Binding ProcessStatus}" 
                     Header="Status" 
                     Width="95"
                     IsReadOnly="True"
                     CanUserReorder="False" 
                     CanUserResize="False">
-                    <DataGridTextColumn.ElementStyle>
-                        <Style TargetType="{x:Type TextBlock}">
-                            <Setter Property="HorizontalAlignment" Value="Stretch"/>
-                            <Setter Property="TextAlignment" Value="Center"/>
-                            <Style.Triggers>
-                                <Trigger Property="Text" Value="Not Started">
-                                    <Setter Property="Background" Value="#FFE0B2"/>
-                                    <Setter Property="Foreground" Value="#E65100"/>
-                                </Trigger>
-                                <Trigger Property="Text" Value="Processing">
-                                    <Setter Property="Background" Value="#FFCDD2"/>
-                                    <Setter Property="Foreground" Value="#C62828"/>
-                                </Trigger>
-                                <Trigger Property="Text" Value="Done">
-                                    <Setter Property="Background" Value="#A5D6A7"/>
-                                    <Setter Property="Foreground" Value="#1B5E20"/>
-                                </Trigger>
-                                <Trigger Property="Text" Value="Cancelled">
-                                    <Setter Property="Background" Value="#FFF176"/>
-                                    <Setter Property="Foreground" Value="#827717"/>
-                                </Trigger>
-                            </Style.Triggers>
-                        </Style>
-                    </DataGridTextColumn.ElementStyle>
-                </DataGridTextColumn>
-                <DataGridTextColumn 
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Setter Property="HorizontalAlignment" Value="Stretch"/>
+                                <Setter Property="TextAlignment" Value="Center"/>
+                                <Style.Triggers>
+                                    <Trigger Property="Text" Value="Not Started">
+                                        <Setter Property="Background" Value="#FFE0B2"/>
+                                        <Setter Property="Foreground" Value="#E65100"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="Processing">
+                                        <Setter Property="Background" Value="#FFCDD2"/>
+                                        <Setter Property="Foreground" Value="#C62828"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="Done">
+                                        <Setter Property="Background" Value="#A5D6A7"/>
+                                        <Setter Property="Foreground" Value="#1B5E20"/>
+                                    </Trigger>
+                                    <Trigger Property="Text" Value="Cancelled">
+                                        <Setter Property="Background" Value="#FFF176"/>
+                                        <Setter Property="Foreground" Value="#827717"/>
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
                     Binding="{Binding Name}" 
                     Header="Name" Width="300" 
                     IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     >
-                </DataGridTextColumn>
-                <DataGridTextColumn 
+                    </DataGridTextColumn>
+                    <DataGridTextColumn 
                     Binding="{Binding SimpleSize2}"
                     Header="Size (GB)"
                     Width="100"
                     IsReadOnly="True" MaxWidth="150" MinWidth="70"  
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"
                     />
-                <DataGridTextColumn 
+                    <DataGridTextColumn 
                     Binding="{Binding NumberOfGDB}"
                     Header="GDB Count"
-                    IsReadOnly="True"/>
-                <DataGridTextColumn
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn
                     Binding="{Binding NumberOfLAS}" 
                     Header="LAS Count"
-                    IsReadOnly="True"/>
-                <DataGridTextColumn
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn
                     Binding="{Binding NumberOfTIF}" 
                     Header="TIF Count"
-                    IsReadOnly="True"/>
-                <DataGridTextColumn 
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn 
                     Binding="{Binding Owner}" 
                     Header="Owner"
-                    IsReadOnly="True"/>
-                <DataGridTextColumn 
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn 
                     Binding="{Binding DateCreated}" 
                     Header="Date Created"
-                    IsReadOnly="True"/>
-                <DataGridTextColumn 
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn 
                     Binding="{Binding DateLastModified}" 
                     Header="Date Last Modified"
-                    IsReadOnly="True"/>
-                <DataGridCheckBoxColumn
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridCheckBoxColumn
                     Binding="{Binding CustomCheckBox, Mode=TwoWay}"
                     Header="Check"
-                    
+                    ElementStyle="{StaticResource MaterialDesignDataGridCheckBoxColumnStyle}"             
                     />
-            </DataGrid.Columns>
-        </DataGrid>
-        <Button 
+                </DataGrid.Columns>
+            </DataGrid>
+            <Button 
             x:Name="btn_export"
             ToolTip="Export Current Table As CSV"
             Content="Export Table"
@@ -213,6 +237,6 @@
             CommandParameter="{Binding ElementName=dataGrid}"
             Style="{StaticResource MaterialDesignFlatButton}"
             />
-    </Grid>
+        </Grid>
     </materialDesign:DialogHost>
 </Window>

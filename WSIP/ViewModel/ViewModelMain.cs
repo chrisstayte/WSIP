@@ -17,11 +17,30 @@ using WSIP.Model;
 using System.Data;
 using WSIP.View;
 using MaterialDesignThemes.Wpf;
+using Newtonsoft.Json;
 
 namespace WSIP.ViewModel
 {
     class ViewModelMain : ViewModelBase
     {
+        public ViewModelMain()
+        {
+            SelectProjectFolderCommand = new RelayCommand(SelectProjectFolder);
+            ProcessResultsCommand = new RelayCommand(ProcessResults);
+            ExportDataCommand = new RelayCommand(ExportData);
+            SetThemeCommand = new RelayCommand(SetTheme);
+            Projects = new ObservableCollection<Project2>();
+
+            ProcessButtonText = "Process";
+
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            VersionNumber = $"Version {version.Major}.{version.Minor}";
+
+            Settings = new Settings();
+
+            LoadSettings();
+            SetTheme(null);
+        }
         string _projectFolder;
         public string ProjectFolder
         {
@@ -37,12 +56,7 @@ namespace WSIP.ViewModel
                     RaisePropertyChanged("ProjectFolder");
                 }
             }
-        }
-
-        // Relay Commands
-        public RelayCommand SelectProjectFolderCommand { get; private set; }
-        public RelayCommand ProcessResultsCommand { get; private set; }
-        public RelayCommand ExportDataCommand { get; private set; }
+        }      
 
         private List<String> _autocompletePaths;
         public List<String> AutoCompletePaths
@@ -101,6 +115,8 @@ namespace WSIP.ViewModel
         private CancellationTokenSource tokenSource;
         private CancellationToken token;
 
+        static public Settings Settings { get; set; }
+
         private bool _processRunning;
         public bool ProcessRunning
         {
@@ -138,32 +154,25 @@ namespace WSIP.ViewModel
             }
         }
 
-        public ViewModelMain()
+        private string _themeName;
+        public string ThemeName
         {
-            SelectProjectFolderCommand = new RelayCommand(SelectProjectFolder);
-            ProcessResultsCommand = new RelayCommand(ProcessResults);
-            ExportDataCommand = new RelayCommand(ExportData);
-            Projects = new ObservableCollection<Project2>();
-
-            ProcessButtonText = "Process";
-
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            VersionNumber = $"Version {version.Major}.{version.Minor}";
-
-            //AppDomain.CurrentDomain.AssemblyResolve += (sender, args) =>
-            //{
-            //    string resourceName = new AssemblyName(args.Name).Name + ".dll";
-            //    string resource = Array.Find(this.GetType().Assembly.GetManifestResourceNames(), element => element.EndsWith(resourceName));
-
-            //    using (var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(resource))
-            //    {
-            //        Byte[] assemblyData = new Byte[stream.Length];
-            //        stream.Read(assemblyData, 0, assemblyData.Length);
-            //        return Assembly.Load(assemblyData);
-            //    }
-            //};
+            get
+            {
+                return _themeName;
+            }
+            set
+            {
+                _themeName = value;
+                NotifyPropertyChanged();
+            }
         }
 
+        // Relay Commands
+        public RelayCommand SelectProjectFolderCommand { get; private set; }
+        public RelayCommand ProcessResultsCommand { get; private set; }
+        public RelayCommand ExportDataCommand { get; private set; }
+        public RelayCommand SetThemeCommand { get; private set; }
 
         #region Events
 
@@ -324,6 +333,24 @@ namespace WSIP.ViewModel
             }
         }
 
+        
+        
+        private void SetTheme(object parameter)
+        {
+            try
+            {
+                new PaletteHelper().SetLightDark(Settings.DarkMode);
+                ThemeName = Settings.DarkMode ? "Dark" : "Light";
+            }
+            catch
+            {
+                Settings.ResetSettings();
+                new PaletteHelper().SetLightDark(Settings.DarkMode);
+                ThemeName = Settings.DarkMode ? "Dark" : "Light";
+            }
+            SaveSettings();
+        }
+
 
         #endregion
 
@@ -421,6 +448,43 @@ namespace WSIP.ViewModel
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private void LoadSettings()
+        {
+            try
+            {
+                if (File.Exists(SaveInfo.SettingsFile))
+                {
+                    string save = File.ReadAllText(SaveInfo.SettingsFile);
+                    Settings = JsonConvert.DeserializeObject<Model.Settings>(save);
+                }
+            }
+            catch
+            {
+
+            }
+        }
+
+        private void SaveSettings()
+        {
+            try
+            {
+                if (!Directory.Exists(SaveInfo.SaveFolder))
+                {
+                    Directory.CreateDirectory(SaveInfo.SaveFolder);
+                }
+
+                var save = JsonConvert.SerializeObject(Settings, Formatting.Indented, new JsonSerializerSettings
+                {
+                    TypeNameHandling = TypeNameHandling.All
+                });
+                File.WriteAllText(SaveInfo.SettingsFile, save);
+            }
+            catch
+            {
+
             }
         }
 
