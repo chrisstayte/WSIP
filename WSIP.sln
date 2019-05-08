@@ -1,22 +1,37 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.352
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSIP", "WSIP\WSIP.csproj", "{17E3179A-6D16-4C0D-83C0-564E81DFFD84}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		64 Bit|Any CPU = 64 Bit|Any CPU
+		64 Bit|x64 = 64 Bit|x64
 		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
 		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.64 Bit|Any CPU.ActiveCfg = Debug|Any CPU
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.64 Bit|Any CPU.Build.0 = Debug|Any CPU
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.64 Bit|x64.ActiveCfg = 64 Bit|x64
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.64 Bit|x64.Build.0 = 64 Bit|x64
 		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Debug|x64.ActiveCfg = Debug|x64
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Debug|x64.Build.0 = Debug|x64
 		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Release|Any CPU.Build.0 = Release|Any CPU
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Release|x64.ActiveCfg = Release|x64
+		{17E3179A-6D16-4C0D-83C0-564E81DFFD84}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6E9F44BB-F47F-4FAB-B23F-C899DF35F79D}
 	EndGlobalSection
 EndGlobal
