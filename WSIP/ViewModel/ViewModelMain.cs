@@ -168,8 +168,8 @@ namespace WSIP.ViewModel
             }
         }
 
-        private int _progressPercent;
-        public int ProgressPercent
+        private double _progressPercent;
+        public double ProgressPercent
         {
             get { return _progressPercent; }
             set
