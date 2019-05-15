@@ -136,7 +136,7 @@
             </Button>
             <DataGrid 
             x:Name="dataGrid" 
-            Margin="10,96,10,48" 
+            Margin="10,96,10,80" 
             ItemsSource="{Binding ProjectsDataView}" 
             SelectedItem="{Binding SelectedCell}"
             AutoGenerateColumns="False"
@@ -238,6 +238,11 @@
             CommandParameter="{Binding ElementName=dataGrid}"
             Style="{StaticResource MaterialDesignFlatButton}"
             />
+            <ProgressBar 
+                Margin="10,476,10,48"
+                Value="{Binding ProgressPercent}"
+                Height="10"
+                VerticalAlignment="Bottom" />
         </Grid>
     </materialDesign:DialogHost>
 </Window>

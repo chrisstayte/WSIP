@@ -168,6 +168,20 @@ namespace WSIP.ViewModel
             }
         }
 
+        private int _progressPercent;
+        public int ProgressPercent
+        {
+            get { return _progressPercent; }
+            set
+            {
+                if (_progressPercent != value)
+                {
+                    _progressPercent = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
         // Relay Commands
         public RelayCommand SelectProjectFolderCommand { get; private set; }
         public RelayCommand ProcessResultsCommand { get; private set; }
@@ -216,6 +230,7 @@ namespace WSIP.ViewModel
                 tokenSource = new CancellationTokenSource();
                 token = tokenSource.Token;
                 ProcessRunning = true;
+                ProgressPercent = 0;
 
                 //_notificationManager.Show(new NotificationContent
                 //{
@@ -255,6 +270,7 @@ namespace WSIP.ViewModel
                 if (task.Status == TaskStatus.RanToCompletion)
                 {
                     ResetProcessButton();
+                    ProgressPercent = 100;
 
                     //if (!token.IsCancellationRequested)
                     //_notificationManager.Show(new NotificationContent
@@ -332,9 +348,7 @@ namespace WSIP.ViewModel
                 }
             }
         }
-
-        
-        
+    
         private void SetTheme(object parameter)
         {
             try
@@ -350,7 +364,6 @@ namespace WSIP.ViewModel
             }
             SaveSettings();
         }
-
 
         #endregion
 
@@ -371,6 +384,7 @@ namespace WSIP.ViewModel
                 project.ProcessStatus = "Cancelled";
             else
                 project.ProcessStatus = "Done";
+            ProgressPercent += 100 / Projects.Count();
         }
 
         private void GetDirectoryInfo(Project2 project, string directoryPath)
