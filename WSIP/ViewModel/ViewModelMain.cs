@@ -384,7 +384,7 @@ namespace WSIP.ViewModel
                 project.ProcessStatus = "Cancelled";
             else
                 project.ProcessStatus = "Done";
-            ProgressPercent += 100 / Projects.Count();
+            ProgressPercent += 100.0 / Projects.Count();
         }
 
         private void GetDirectoryInfo(Project2 project, string directoryPath)
