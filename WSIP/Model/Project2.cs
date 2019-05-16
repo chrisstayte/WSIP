@@ -11,6 +11,8 @@ namespace WSIP.Model
     {
         private int _numberOfLAS;
         private int _numberOfTIF;
+        private int _numberOfSHP;
+        private int _numberOfDGN;
         private string _processStatus;
         private string _owner;
         private string _dateCreated;
@@ -57,6 +59,32 @@ namespace WSIP.Model
                 {
                     _numberOfTIF = value;
                     base.NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public int NumberOfSHP
+        {
+            get { return _numberOfSHP; }
+            set
+            {
+                if (_numberOfSHP != value)
+                {
+                    _numberOfSHP = value;
+                    NotifyPropertyChanged();
+                }
+            }
+        }
+
+        public int NumberOfDGN
+        {
+            get { return _numberOfDGN; }
+            set
+            {
+                if (_numberOfDGN != value)
+                {
+                    _numberOfDGN = value;
+                    NotifyPropertyChanged();
                 }
             }
         }

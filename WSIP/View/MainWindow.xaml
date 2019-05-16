@@ -203,6 +203,16 @@
                     Header="TIF Count"
                     IsReadOnly="True"
                     EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn
+                    Binding="{Binding NumberOfSHP}" 
+                    Header="SHP Count"
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
+                    <DataGridTextColumn
+                    Binding="{Binding NumberOfDGN}" 
+                    Header="DGN Count"
+                    IsReadOnly="True"
+                    EditingElementStyle="{StaticResource MaterialDesignDataGridTextColumnEditingStyle}"/>
                     <DataGridTextColumn 
                     Binding="{Binding Owner}" 
                     Header="Owner"

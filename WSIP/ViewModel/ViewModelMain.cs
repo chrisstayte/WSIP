@@ -337,6 +337,8 @@ namespace WSIP.ViewModel
                             project.NumberOfGDB.ToString(),
                             project.NumberOfLAS.ToString(),
                             project.NumberOfTIF.ToString(),
+                            project.NumberOfSHP.ToString(),
+                            project.NumberOfDGN.ToString(),
                             project.Owner,
                             project.DateCreated,
                             project.DateLastModified,
@@ -437,6 +439,10 @@ namespace WSIP.ViewModel
                     project.NumberOfTIF += 1;
                 if (Path.GetExtension(file).ToLower() == ".las")
                     project.NumberOfLAS += 1;
+                if (Path.GetExtension(file).ToLower() == ".shp")
+                    project.NumberOfSHP += 1;
+                if (Path.GetExtension(file).ToLower() == ".dgn")
+                    project.NumberOfDGN += 1;
                     
                 GetFileSize(project, file);
             }
