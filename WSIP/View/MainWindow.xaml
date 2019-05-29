@@ -14,8 +14,7 @@
         Icon="../Resources/Vomited_50.png" 
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
-        
+        FontFamily="{DynamicResource MaterialDesignFont}"     
         >
     <WindowChrome.WindowChrome>
         <WindowChrome  ResizeBorderThickness="6" CaptionHeight="0"
